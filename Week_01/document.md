@@ -108,3 +108,68 @@ Variable | Reference  | Address | Object
 obj1    | 0x100      | 0x100   | {x: 10, y: 20}
 obj2    | 0x100      |         | 
 ```
+---
+
+# **Shallow and Deep Clones**
+```js
+// First understand the problem
+
+let match = {
+  team: "Bangladesh",
+  scores: [150,200,250],
+  venu:{
+    city: "Dhaka",
+    area: "Mirpur",
+  }
+}
+
+let copy = match; // copies the reference not the object
+//copy.team = "Australia";
+console.log(match.team); // Output: Australia - orginal changed
+
+// Solution_01: Shallow clone: shallow clone create a new object and copies only the top level properties
+function shallowClone(ob){
+  return {...ob};
+}
+
+let shallowCopy =  shallowClone(match);
+shallowCopy.name = "England";
+shallowCopy.scores.push(350);
+console.log(match.team); // Ouput: Bangladesh 
+console.log(match.scores); // here [150, 200, 250, 350] so, affected orginal
+/*
+Limitations: nested object / array still share referrences
+*/
+
+// Solution_02: Deep clone: deep clone creates a complete independent copy, including all nested objects.
+
+function deepClone(ob){
+  // for primitive value handle
+  if(ob === null || typeof ob !== 'object'){
+    return ob;
+  }
+  
+  // handles array
+  if(Array.isArray(ob)){
+    return ob.map(item => deepClone(item));
+  }
+
+  // handle object
+  cloneObject = {}
+  for(let key in ob){
+    if(ob.hasOwnProperty(key)){
+      cloneObject[key] = deepClone(ob[key]);
+    }
+  }
+  return cloneObject;
+  
+}
+
+let deepCloneCopy = deepClone(match);
+deepCloneCopy.name = "England";
+deepCloneCopy.scores.push(400);
+console.log(match.team); // Ouput: Bangladesh 
+console.log(match.scores); // here no add 400 output: [150, 200, 250, 350]
+
+
+```
