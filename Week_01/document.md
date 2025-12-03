@@ -12,7 +12,7 @@
 - When copied, a **new value** is created 
 - Number, String, Boolean, Undefined, Null, Symbol, BigInt 
   
-**falsy values:**false, 0, -0, 0n (BigInt zero), "" (empty string), null, undefined, NaN
+**falsy values:** false, 0, -0, 0n (BigInt zero), "" (empty string), null, undefined, NaN
 
 #### **2. REFERENCE TYPES (Objects)**
 
@@ -155,7 +155,7 @@ function deepClone(ob){
   }
 
   // handle object
-  cloneObject = {}
+  const cloneObject = {};
   for(let key in ob){
     if(ob.hasOwnProperty(key)){
       cloneObject[key] = deepClone(ob[key]);
@@ -171,5 +171,108 @@ deepCloneCopy.scores.push(400);
 console.log(match.team); // Ouput: Bangladesh 
 console.log(match.scores); // here no add 400 output: [150, 200, 250, 350]
 
+```
+---
+
+# **Scope (block, function, global)**
+**Scope:** Who can see your variables?
+Think of scope like rooms in a house:
+- **Global scope:** Variables declared Globally (outside any block or function) have **Global Scope**. Global variables can be accessed from anywhere in a JS program.
+- **Function scope:** Variables defined inside a function are not accessible (visible) from outside the function.
+- **Block Scope:** Variables declared with **let** and **const** inside a code block are block-scoped, meaning they are only accessible within that block. **var** is not block scope (it ignores block).
+
+```js
+// block scope where let and const work but var ignoers
+if (true){
+  let letVar = "I am let";
+  const constVAr = "I am const";
+  var varVAr = "I am var";
+
+  console.log(letVar); // works
+  console.log(constVAr); // works
+  console.log(varVAr); // works
+}
+console.log(letVar); // error
+console.log(constVAr); // error
+console.log(varVAr); // works
+```
+**Lexical Scope:** Functions can access variables from where they were  **written**, not from where they're **called**.
+- The "Look-Up" Rule
+- `let/const` have **block-level** lexical scope, while `var` has **function-level** scope.
+
+```js
+
+let aaa = 1;
+
+function second() {
+    let aaa = 2;
+    first(); 
+}
+
+function first() {
+    console.log(aaa); // output: 1, because function look for variables where they are defined, not where they are called.
+}
+
+second(); 
+
+// but scope resolution order: when a variable is refferenced 
+// current function - outer function - continue up the chain - global - not fine( reference error)
+
+let aaaa = 1;
+
+function second() {
+    let aaaa = 2;
+    function first() {
+    console.log(aaaa); // output: 2,
+  }
+    first(); 
+}
+
+second(); 
+```
+
+### **The Classic for Loop Problem(let vs var)**
+```js
+
+ for (var i = 0; i<4; i++){
+  setTimeout(()=>console.log(i), 100);
+ } 
+ // output: 4,4,4,4
+
+ for (let i = 0; i < 4; i ++){
+  setTimeout(()=>console.log(i),100);
+ }
+ // output: 0,1,2,3
+  
+/* var -- one box (function scope)
+   let --  each loop round new box (block scope)
+
+   For var: 
+   - until loop finish cant execute setTimeout()
+   - that means after finish loop then execute console.log()
+   - but var i has one variable, whatever happens in loop i is the only variable throughout the entire loop
+   - in loop:
+       i = 0, i = 1, i = 2, i = 3, i = 4 (stop loop)
+   - since i is only one and present value = 4 thats why print 4,4,4,4
+
+   For let:
+   - let - block scope
+   - each iteration js create new i 
+     iter_1: let i = 0
+     iter_2: let i = 1
+     iter_3: let i = 2
+     iter_4: let i = 3
+   - go to next iteration the previous i becomes completely new
+   - and setTimeout() keeps each iteration i
+   - each setTime maintaince its own copy of i
+   so output: 0,1,2,3
+
+   var - does not create separate i in the loop - all callbacks take the last value.
+   let - separate scope in each iteration - callback takes its own value.
+
+   let - everyone has their own i - different result
+   var - everyone sees the same i - same result
+
+*/
 
 ```
