@@ -351,4 +351,97 @@ second();
 */
 
 
+// ---------------------------------------------Hoisting---------------------------------------------------------------
+
+console.log("HOSTING");
+
+// excercise 01:
+console.log(hh); // undefined
+var hh = 10;
+console.log(hh); // 10
+
+// excercise 02:
+// console.log(x); // TDZ
+// let x = 5;
+
+// excercise 03:
+var y = 1; // undefined
+function test() {
+  console.log(y);
+  var y = 2;
+}
+test();
+
+// excercise 04:
+// let z = 100; 
+
+// function run() {
+//   console.log(z);// TDZ
+//   let z = 200;
+// }
+
+// run();
+
+// excercise 05
+// function calc(a = b, b = 5)// reference error
+//  {
+//   console.log(a, b);
+// }
+// calc();
+
+// excercise 06
+function mystery() {
+  console.log(x); // undefined
+  {
+    var x = 10;
+  }
+  console.log(x); // 10
+}
+
+mystery();
+
+// excercise 07
+"use strict";
+
+{
+  console.log(a);
+  function a() { return 5; } // are hoisted
+}
+
+
+// excercise 08
+for (let i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 0);
+}
+
+console.log(i); //error
+
+// excercise 09
+var sum = function sum(n) {
+  if (n <= 1) return 1;
+  return n + sum(n - 1); // always call itself  
+};
+
+var originalSum = sum;
+sum = null;
+
+console.log(originalSum(3));  //  6
+
+// excercise 10
+var sum = function(n) {  
+  if (n <= 1) return 1;
+  return n + sum(n - 1);  // uses outer variaable sum
+};
+
+console.log(sum(3));  // 6
+
+// But if we reassign sum
+var originalSum = sum;
+sum = null;
+console.log(originalSum(3));  //  Error: sum is not a function
+
+
+// -----------------------------------------------------------Temporal Dead Zone (TDZ)-----------------------------------------
+
+
 

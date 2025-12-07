@@ -211,6 +211,7 @@ function second() {
 
 function first() {
     console.log(aaa); // output: 1, because function look for variables where they are defined, not where they are called.
+    // functions run in the order they're called, not in the order they're defined
 }
 
 second(); 
@@ -274,5 +275,176 @@ second();
    var - everyone sees the same i - same result
 
 */
+
+```
+
+# **Hoisting**
+Hosting means javaScript knows about `variables and functions` before reads code line by line, but it handles them differently.
+
+**Crucial point:** only the **declarations** are hoisted, **not the initializations**.
+
+Hoisting = What gets created in memory during Pass 1 + what value it gets.
+
+### **Why Hoisting Exists at All**
+
+JS engine must know:
+
+- Which variables exist inside each scope
+    
+- Which functions can be called
+    
+- How to set up the execution environment
+    
+**Hoisting is not a trick, it's how JS builds the execution model.**
+
+```js
+ console.log(name);
+ var name(declaration) = "Shahruk"(initialization);
+ console.log(name);
+ 
+ - but how js engine seees it
+  var name; // declaration is hoisted to the top
+  console.log(name): // output: undefined
+  name = "Shahruk"; // initialization
+  console.log(name); // output: Shahruk
+
+  Let's see magic:
+
+  - In a different language: it shows a an error
+   name();  // error
+	void name() {
+	    printf("name");
+	}
+   
+ - but in a JavaScript: it works: because js function is fully hoisted
+   name();
+   function name(){
+   console.log(name);
+   }
+
+ - how js engine sees it:
+    //  function is hoisted to the top
+	function name() {
+	  console.log(name);
+	}
+    name(); // now this works perfectly
+
+ - but one thing, function expressions don't hoisted
+   name(); // typeerror: hello is not a function
+   var name = function(){
+     console.log("Shahruk");
+   }
+
+- why it fails: only the variable declaration is hoisted, not the function assignment.
+  
+  - js engine:
+  var name; // hoisted value: undefined
+  name(); // typeerror: trying to call undefined
+  name = function(){
+   console.log("Shahruk");
+  }
+
+  - if I do this, it will work:
+   
+   var name = function(){
+     console.log("Shahruk");
+   }
+    name(); 
+
+```
+
+#### **Now, let's see some interesting things:**
+
+```js
+- If we declare a function name and a variable name the same. then?
+  
+	console.log(typeof test); // output: "function" - function declaration wins!
+	function test() {
+	    return "function";
+	}
+	
+	var test = "variable";
+	
+	console.log(typeof test); // output: "string" 
+	
+	 * Function Declarations - highest Priority
+	 * Variable Declarations - lower Priority
+	   
+	---------------- how js engine behave? ---------------------
+	//  function declaration hoisted
+	function test() {
+	    return "function";
+	}
+	
+	//  variable declaration hoisted (but ignored since name exists)
+	var test; // this does nothing because 'test' already exists as function
+	
+	//actual code runs
+	console.log(typeof test); // "function"
+	test = "variable";  // assignment overwrite the function
+	console.log(typeof test); // "string"
+	
+	----------------- Function Expression vs Function Declaration----------------
+	
+	console.log(foo); // output: [Function: name] - function declaration wins
+
+	function name() {
+	    return "declaration";
+	}
+	
+	var name = function() {
+	    return "expression";
+	};
+	
+	console.log(name()); // "expression"
+	
+	------------------------ Duplicate Function Declarations-------------
+	console.log(name()); //second: "Second wins"
+
+	function name() {
+	    return "first";
+	}
+	
+	function name() {
+	    return "second";
+	}
+	// the last function declaration overwrites previous ones
+
+  - Non-strict mode: Function declarations in blocks "leak" to outer scope (inconsistent, legacy)
+
+  - Strict mode: Function declarations in blocks are truly block-scoped (consistent, modern)
+```
+
+# **Temporal Dead Zone (TDZ)**
+**TDZ (let/const):** Period between when a variable is hoisted(declare) and when it initialize with a value. During this time , accessing the variable result: **ReferenceError**
+- *TDZ is the time when JS "knows" the variable, but does not allow it to be used.*
+
+```js
+//  throws error and stops execution
+console.log(x); // ReferenceError: Cannot access 'x' before initialization
+// The program stops here - nothing below runs
+let x = 10;     // this line is never reached
+console.log(x); // this line is never reached
+
+var x:    [Memory Allocated] → [Initialized: undefined] → [Access: returns undefined]
+let x:    [Memory Allocated] → [UNinitialized: <empty>] → [Access: throws ReferenceError]
+
+- But one interestin thing:
+  let x; //declaration + initialized with undefined
+  console.log(x); // undefined
+  x = 10; // assignment
+  console.log(x); // print 10
+  
+  
+  function test() {
+  console.log(a); // undefined
+  var a = 1;
+
+  if (true) {
+    // tdz starts for b here
+    console.log(b); //  ReferenceError
+    let b = 2;      // tdz ends here
+  }
+}
 
 ```
