@@ -451,7 +451,7 @@ let x:    [Memory Allocated] → [UNinitialized: <empty>] → [Access: throws Re
 
 # **Higher Order Functions**
 A higher order function is a function that either:
-- Takes anorhter function as an argument, or
+- Takes another function as an argument, or
 - Returns a function as it result, or
 - Both
 

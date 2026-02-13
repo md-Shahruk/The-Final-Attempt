@@ -47,7 +47,7 @@ let big2 = BigInt(90000000000012);
 let person = {
   name: "Shahruk",          
   age: 25,               
-  "full name": "John Doe", // Multi-word key needs quotes
+  "full name": "Md. Shahruk", // Multi-word key needs quotes
   123: "numeric key",    // Numeric keys get converted to strings
   isAdmin: true,         
   address: {             // Nested object
