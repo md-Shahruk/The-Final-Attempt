@@ -189,3 +189,69 @@ This is where shallow and deep copy matters
   - String
   - Number
   - Boolean
+```js
+### String coercion
+   '5' + 2     // "52"
+   true + "3"  // "true3"
+
+### Number Coercion
+    '5' - 2      // 3
+    '10' * '2'   // 20
+    true + 1     // 2
+    false + 1    // 1
+
+    Number("5")        // 5
+    Number("")         // 0
+    Number("abc")      // NaN
+    Number(null)       // 0
+    Number(undefined)  // NaN
+    Number(true)       // 1
+    Number(false)      // 0
+
+### == vs ===
+   ==: allow coercion
+   ===: strict comparision no coercion
+    5 == "5"     // true
+    5 === "5"    // false
+
+    null == undefined   // true
+    null === undefined  // false
+
+    '' == 0     // true
+    '' === 0    // false
+
+### weired cases
+    [] + []         // ""
+    [] + {}         // "[object Object]"
+    {} + []         // 0   (context dependent)
+    true + true     // 2
+
+### || and && don’t return boolean.
+   0 || "Hello"      // "Hello"
+   "Hi" && 5         // 5
+
+   || → returns first truthy value
+   && → returns first falsy value (or last truthy)
+
+    '5' + 3 // 53
+    '5' - 3 // 2
+    true + '2' //true2
+    null + 1 // 1
+    undefined + 1 // NaN
+    [] + 1 // 1
+    [1] + 1 // 11
+    [1,2] + 1 // 1,21
+
+
+```
+
+### Interesting Stuff
+```js
+ console.log(5 > 3 > 2) // false
+ - js check left to right so 5>3 true, true = 1 > 2 false
+
+ console.log("10" < "9") // true
+ - Both "10" and "9" are strings, not numbers.
+ - When using < with strings, JavaScript does lexicographical (dictionary) comparison, not numeric   comparison.
+
+```

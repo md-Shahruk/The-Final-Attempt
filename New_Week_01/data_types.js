@@ -123,3 +123,8 @@ console.log(res);
 let ress = count ?? 10;
 console.log(ress);
 
+// Type coercia
+
+let xx = 10;
+xx = "ten";
+console.log( xx);
