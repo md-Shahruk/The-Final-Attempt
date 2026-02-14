@@ -89,3 +89,103 @@ console.log(bigger); // look same
 let safeNumber = 9007199254740993n;  // 'n' add BigInt
 console.log(safeNumber);  // 9007199254740993n
 ```
+### NoN-primitive
+- mutable
+- work by reference
+```js
+const student = {
+    name: "Shahruk",
+    age: 20,
+    subjects: ["Math", "Biology"],
+    address: {
+        city: "Dhaka",
+        area: "Mirpur"
+    },
+    study: function() {
+        console.log("Study...");
+    }
+};
+
+// Access 
+console.log(student.name);       
+console.log(student["age"]);      
+console.log(student.address.city); 
+student.study();        
+```
+
+### Shallow and Deep copy
+```js
+
+In reference type , when copy- here copy the the reference not the actual object.
+
+let obj1 = { name: "Shahruk" };
+let obj2 = obj1;
+
+obj2.name = "Rahim";
+
+console.log(obj1.name); // Rahim - obj1 and obj2 point the same memory location
+This is where shallow and deep copy matters
+
+### Shallow copy
+   - A shallow copy copies only the first level
+   - Nested objects are still share same reference.
+   let user1 = {
+    name: "Shahruk",
+    address:{
+        city: "Dhaka",
+    }
+    };
+
+    let user2 = {...user1};
+    user2.name = "Rahim";
+    user2.address.city = "Sylhet";
+    console.log(user1.name); // still: Shahruk not change to Rahim
+    console.log(user1.address.city); // but this change Dhaka to Sylhet cause: user1.address === user2.address // true 
+
+### Deep copy
+   - deep copy creates a completely new object, including all nested levels.
+   - no shared references
+    let user3 = structuredClone(user1);
+    user3.address.city = "Chittagong";
+    console.log(user1.address.city); // actuall output: Dhaka cause: user1.address === user3.address // false
+
+```
+
+### Nullish Coalescing
+- The nullish coalescing operator (??) returns the right-hand value only if the left hand value is **null** and **undefined**.
+- let result = value ?? defaultvalue; if value is null or undefined use defaultvalue
+  
+```js
+### before ?? developers use 
+   value || defaultvalue
+   # Problem
+   let count = 0;
+   let res = count || 10;
+   console.log(res) // 10 because- || check only falsy not nullish and 0 is falsy value in js, but 0 is valid value not missing
+
+   Now with ??:
+   let count = 0;
+   let res = count ?? 10;
+   console.log(res) // 0
+
+```
+
+### Optional chaining ?.
+- Optional chaining lets safely access deeply nested properties without crashing if something is null or undefined
+
+```js
+ ### Without optional chaining
+    user.address.city; if address undefined- runtime error because js assume address exists
+
+    With optional chaining
+    user?.address?.city; if address undefined - return undefined no crash
+```
+
+### Type Coercion
+- Type Coercion = JavaScript automatically converting one type to another.
+- Implicit coercion - JS converts automatically
+- Explicit coercion - You convert manually 
+- Js tries to convert values into one of three primities types:
+  - String
+  - Number
+  - Boolean
