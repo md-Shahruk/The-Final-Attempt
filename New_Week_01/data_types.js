@@ -128,3 +128,8 @@ console.log(ress);
 let xx = 10;
 xx = "ten";
 console.log( xx);
+
+
+/// Scope (block, function, global)
+console.log("block-function-global");
+

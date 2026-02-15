@@ -255,3 +255,94 @@ This is where shallow and deep copy matters
  - When using < with strings, JavaScript does lexicographical (dictionary) comparison, not numeric   comparison.
 
 ```
+
+### Scope(block, function, global)
+#### Global Scope
+- global scope means variables that accessiable anywhere in code, from any function or block.
+```js
+    //  global scope
+    let userName = "Shahruk";
+
+    function sayHello() {
+    console.log("Hello " + userName);
+    }
+
+    function changeName() {
+    // can also change here
+    userName = "Shatil";
+    }
+
+    sayHello();    // Hello Shahruk
+    changeName();
+    sayHello();    // Hello Shatil
+    
+    # Problem:
+      - everything can change everything
+      - global variable stay in memory forever
+```
+
+#### Local Scope
+- Local scope means variables that are only accessiable inside a specific function or block. They are private and can't be seen from outsise.
+- Two types of local scope
+   - function scope using(var, let,const)
+   - block scope (let, const, inside{}) , **var** ignore block scope
+
+```js
+  ## Function scope
+    function greet() {
+    let message = "Hello!";  // Local variable
+    console.log(message);    // Hello
+    }
+
+    greet();
+    console.log(message);      // show error not accessiable
+ 
+ ## block scope
+    if (true) {
+    let age = 25;  // block scope      
+    const name = "Shahruk";  // block scope
+    var oldWay = "Oops"; //
+    
+    console.log(age); // 25  
+    }
+
+    console.log(age);  // error   
+    console.log(name);  // error   
+    console.log(oldWay); // work , var ignore block scope  
+
+## Why local scope:
+  - no naming conflict
+  - automatic cleanup
+  - better security
+    
+```
+
+### Lexical Scope
+- Lexical scope also called static scope means that where a variable is accessiable depends on where it is written in the code, not where it is called from.
+```js
+    let level = 0;  // 0 global
+
+    function level1() {
+    let level = 1;  //1
+    
+    function level2() {
+        let level = 2;  // 2
+        
+        function level3() {
+        let level = 3;  // l 3
+        console.log(level);  // 3 
+        }
+        
+        function level3_other() {
+        console.log(level);  // 2 
+        }
+        
+        level3();        // 3
+        level3_other();  // 2
+    }
+    
+    level2();
+    }
+
+    level1();
+```
