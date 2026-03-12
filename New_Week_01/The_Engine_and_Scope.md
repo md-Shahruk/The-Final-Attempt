@@ -1,6 +1,8 @@
 # Topics will be covered:
 - JS execution model
 - The memory heap 
+- Hoisting
+- TDZ (Temporal Dead Zone)
 
 
 ### JS execution model
@@ -56,4 +58,34 @@ console.log(thing.x); // 1
 
 "Why did mutating this object affect another variable?" — Two variables pointing to the same heap object.
 "What is garbage collection?" — When nothing on the stack points to a heap object anymore, the JS engine eventually frees that memory.
+```
+
+### Hoisting
+- Pre-registration - The engine registers declearations executing anything.
+```js
+      console.log(name); // undefined not error
+      var name = "Shahruk";
+      console.log(name); // "Shahruk"
+
+      ## function declearations vs expression
+      greet();   //  "Hello" 
+      farewell(); //  TypeError: farewell is not a function
+
+      function greet() { console.log("Hello"); }
+      var farewell = function() { console.log("Bye"); };
+```
+
+### TDZ (Temporal Dead Zone)
+-  The period between let/const hoisted and its line being executed. Reference error
+```js
+let x = 1;
+
+function test() {
+  console.log(x); //  ReferenceError — NOT 1
+  let x = 2;
+}
+
+test();
+
+is let hoisted? yes, but without intialization
 ```

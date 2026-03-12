@@ -1,8 +1,11 @@
 
-function replace(obj) {
-  obj = { x: 99 }; // creates a NEW object in the heap
+let a = "outer";
+
+function shadow() {
+  console.log(a); // What happens?
+  let a = "inner";
+  console.log(a); // What happens?
 }
 
-let thing = { x: 1 };
-replace(thing);
-console.log(thing.x); // still 1
+shadow();
+console.log(a);   // What happens?
