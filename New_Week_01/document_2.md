@@ -1,4 +1,13 @@
-# Data Types
+# Topics will be covered:
+- Data Types
+- Shallow and Deep copy
+- Nullish Coalescing
+- Optional Chaining ?.
+- Type Coercion
+- Scope(block, funtion, global, lexical scope)
+
+
+## Data Types
 - Primitive: Store the actual value in the variable
 - Non-primitive: store a reference where the variable is stored
 - Primitive value copy
