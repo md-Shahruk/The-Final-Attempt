@@ -3,6 +3,7 @@
 - The memory heap 
 - Hoisting
 - TDZ (Temporal Dead Zone)
+- Closure
 
 
 ### JS execution model
@@ -87,5 +88,31 @@ function test() {
 
 test();
 
-is let hoisted? yes, but without intialization
+is let hoisted? yes, but without intialization 
+```
+
+### Closure
+- Inner function remembers outer variables, even after outer is done 
+- Closure: a function + the lexical environment it was born
+
+**simple**
+```js
+    function makeCounter(){
+      let count = 0;
+      function inner(){
+        count ++;
+        return count;
+      }
+      return inner
+    }
+
+    const fn = makeCounter();
+    console.log(fn()); // 1
+    console.log(fn()); // 2
+
+    ## The classic var loop problem
+    for(var i = 0; i < 5; i++){
+      setTimeout(() => console.log(i), 1000); // 5 5 5
+     }
+
 ```
