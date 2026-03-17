@@ -4,6 +4,7 @@
 - Web APIs
 - callback queue
 - microtask queue
+- Promise Construction and Chaining
 
 ### Event Loop
 - Js is single-threaded means (one thing at a time), but it needs to handle timers, network request, etc without freezing. The event loop makes this possible.
@@ -51,4 +52,57 @@
 ```
 
 - Microtask Queue - *Promise .then(), async/await, queueMicrotaskHigher* — runs first
-- Macrotask Queue - *setTimeout, setInterval, DOM eventsLower* — runs after
+- Macrotask Queue - *setTimeout, setInterval, DOM eventsLower* — runs after 
+
+
+### Promise Construction and Chaining 
+- **A promise object represent the completion or failure of an asynchronous operation**.
+- three exclusive states:
+  - pending (start but not finish)
+  - rejected (operation failed) if failed, have an error
+  - fulfiled (operation complete) it worked, have a value
+
+```js
+    console.log("Promises");
+    // new promises(...) create the token
+    const foodOrder = new Promise((resolve, reject)=>{
+
+    const isFoodReady = true;
+    if(isFoodReady){
+        resolve("Here is your food");
+    }else{
+        reject("Sorry.....");
+    }
+
+    });
+
+    // .then when the order is ready do this
+    // whatever return inside .then becomes the input of next .then 
+    foodOrder.then(food =>{
+    console.log(food);
+    return food + " + sauce";
+    })
+    .then(foodwithSauce =>{
+    console.log(foodwithSauce);
+    // the chain pauses at the step, waits for the inner promises finish , then move to next .then()
+    return new Promise(resolve =>{
+        setTimeout(()=> resolve("here is your drink"), 5000);
+    });
+    
+    })
+    .then(drink =>{
+    console.log(drink);
+    
+    })
+    .then(()=>{
+    console.log("Now you can eat.");
+    
+    })
+    // .then runs when things going right
+    // .catch runs when things going wrong
+    .catch(error =>{
+    console.log(error);
+    
+    });
+
+```
