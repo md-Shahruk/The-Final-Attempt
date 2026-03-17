@@ -5,8 +5,9 @@
 - callback queue
 - microtask queue
 - Promise Construction and Chaining
+- Error Propagation
 
-### Event Loop
+## Event Loop
 - Js is single-threaded means (one thing at a time), but it needs to handle timers, network request, etc without freezing. The event loop makes this possible.
 
 - The 4 pieces:
@@ -39,7 +40,7 @@
 
 **setTimeOut(...,0)** dosent mean run immediately, It means *run as soon as the call stack emtpy*.
 
-### microtask
+## microtask
 - after every macrotask finishes the entires microtask queue drains completely before the next macrotask runs.
 ```js
     Synchronous code
@@ -55,7 +56,7 @@
 - Macrotask Queue - *setTimeout, setInterval, DOM eventsLower* — runs after 
 
 
-### Promise Construction and Chaining 
+## Promise Construction and Chaining 
 - **A promise object represent the completion or failure of an asynchronous operation**.
 - three exclusive states:
   - pending (start but not finish)
@@ -106,3 +107,102 @@
     });
 
 ```
+
+## Why promises resolve before setTimeout at 0ms?
+ - After the call stack finish all microtasks are executed before macrotask.
+ - Event loop:
+   - First: flush microtasks (promises)
+   - Then: take one macrotask (timeout)
+ - setTimeout(f, 0) means: Run this after at least 0ms, but when the event loop gets to macrotask.
+ - Microtask queue and Macrotask queue are FIFO
+```js
+   setTimeout(() => console.log("A"), 0);
+
+    Promise.resolve().then(() => {
+    console.log("B");
+    setTimeout(() => console.log("C"), 0);
+    });
+    console.log("D");
+    Ans: D,B,A,C
+
+console.log("D");
+```
+
+## Error Propagation
+A promise chain carries **one thing** at a time:
+- either value ________
+- or error _______
+
+**Rule 1** - normal flow
+- if nothing goes wrong:
+  ```js
+    Promise.resolve("ok")
+    .then(v => console.log(v));
+    output: ok
+  ```
+**Rule 2** - error skips then
+  ```js
+         Promise.reject("fail")
+        .then(() => console.log("A"))
+        .catch(e => console.log("caught:", e)); // error jumps .then()
+        output: caught: fail
+  ```
+
+**Where does error come from?**
+**Two ways:**
+- 1. throw
+  ```js
+     .then(() => {
+        throw "boom";
+     })
+  ```
+- 2. Promise.reject();
+  ```js
+     return Promise.reject("error");
+  ```
+ ### Promise only controls what is returned/thrown - not random async code
+    ```js
+       return value  → go to next .then()
+       throw error   → go to next .catch()
+    ```
+  ```js
+     Example:
+     Promise.resolve()
+    .then(() => {
+        console.log("A");
+        throw "err";
+    })
+    .then(() => {
+        console.log("B");
+    })
+    .catch(e => {
+        console.log("C:", e);
+    })
+    .then(() => {
+        console.log("D");
+    });
+
+    output:A, C:err, D
+  ```
+
+  ```js
+    Tricky:
+    Promise.resolve()
+    .then(() => {
+        
+        setTimeout(() => reject("boom"), 0);
+        
+    })
+    .catch(err => console.log("caught:", err));
+    output: uncaught error because here settime macrotask and catch don't see 
+   
+    Promise.resolve()
+    .then(() => {
+        return new Promise((_, reject) => {
+        setTimeout(() => reject("boom"), 0);
+        });
+    })
+    .catch(err => console.log("caught:", err));
+    
+    output: caught:boom because pause the chain until this promises finishes
+  ```
