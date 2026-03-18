@@ -206,3 +206,12 @@ A promise chain carries **one thing** at a time:
     
     output: caught:boom because pause the chain until this promises finishes
   ```
+
+## async/await as syntactic sugar
+**async/await** is not a new thing just a cleaner way to write promises.
+
+**async** - This function contains async code
+
+**await** - wait here until this promise is done 
+
+**ONE RULE** - only use *await* inside an *async* function

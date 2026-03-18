@@ -93,3 +93,31 @@ paymetSystem.then(data =>{
   
 })
 
+console.log("async/await");
+
+const foodOrder = new Promise((resolve, reject) => {
+  const foodIsReady = true;
+
+  if (foodIsReady) {
+    resolve("here is your burger");
+  } else {
+    reject("sorry, we ran out");
+  }
+});
+
+async function food(){
+   try{
+      const food = await foodOrder;
+      console.log(food);
+
+      const foodWith = food + " + sauce";
+      console.log(foodWith);
+      
+      
+   } catch(error){
+    console.log(error);
+    
+   }
+}
+
+food();
