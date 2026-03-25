@@ -130,3 +130,174 @@
 
     
 ```
+
+### Topic-4: `class` Syntax
+#### `class` is the cleaner syntax of prototype linking + `new` keyword 
+
+#### Constructor Function vs Class
+```js
+// OLD Way- constructor function
+    function Dog(name){
+        this.name = name;
+        this.barks = true;
+    }
+    Dog.prototype.describe = function(){
+        console.log("Hello" +  this.name);
+        
+    }
+    const dogg = new Dog("Piku");
+
+    // New way - class syntax
+    class Dog{
+        constructor(name){
+            this.name = name;
+            this.barks = true;
+
+        }
+
+        describe(){
+            console.log("Hello" + this.name);
+            
+        }
+    }
+    const doggg = new Dog("Pikuu");
+```
+#### methods are defined once on the prototype, not copied into every instance. That's what makes it memory efficient.
+#### The only things that live directly on rex are properties set via this inside the constructor:
+```js
+ constructor(name) {
+  this.name = name;  // ← this lives on rex
+  this.barks = true; // ← this lives on rex
+}
+```
+
+
+
+## this Binding (4 Rules)
+### Topic-1: Implicit Binding
+#### When call a method through an object using the `dot` notation that is implicit binding.
+> `this` = the object to the left of the dot at call time
+```js
+   const dog ={
+    name: "Piku";
+   }
+   dog.name; // the object to the left of the dot is dog. so this = dog.
+```
+#### Losing implicit  binding
+```js
+   const dog = {
+    name: "piku",
+    describe (){
+       console.log(this.name);
+    }
+   }
+
+   const fnn = dog.describe; // just copying the function reference 
+   fnn(); // " " 'this' is now the global object not dog
+```
+
+### Topic-2: Explicit Binding `(call, apply, bind)` 
+#### Explicit Binding - When you run use this object as `this`.
+#### `call` - Invoke immediately, Pass Args one by one
+```js
+
+    function introduce(city, country){
+    console.log(this.name + " is form " + city + ", " + country);
+    
+    }
+    const user = {name: "Shahruk"};
+
+    introduce.call(user, "Dhaka", "Bangladesh.");
+
+```
+> First agr = what `this` should be. Rest = function arguments
+
+#### `apply` - Invoke immediately, Pass Args as Array
+```js
+   introduce.call(user, ["Dhaka", "Bangladesh"]);
+```
+
+#### `bind` - return a new Function, dosent call immediately
+```js
+   const bindIntro = introduce.bind(user, "Dhaka", "Bangladesh");
+   bindIntro();
+```
+> `bind` lock `this` permanently and reutn a new function. Call it later when need.
+
+#### Let's fixing lost implicit binding with `bind`
+```js
+   const dog = {
+    name: "piku",
+    describe (){
+       console.log(this.name);
+    }
+   }
+
+   const fnn = dog.describe; // just copying the function reference 
+   fnn(); // " " 'this' is now the global object not dog
+
+   Solve:
+   const fnn = dog.describe.bind(dog);
+   fnn(); // piku
+```
+
+### Topic-3: Arrow Functions and `this`
+#### Arrow function don't have theri own `this` insted they inherit `this` from surrounding scope why they were defined and this is called lexical this.
+> Regular functions vs Arrow functions
+```js
+   const dog = {
+    name: "piku",
+    intro: function(){
+        log(this.name); // this = dog
+    }
+   }
+   dog.intro(); // piku
+
+   const dog = {
+    name: "piku",
+    intro:()=>{
+        log(this.name); // this = global object
+    }
+   }
+   dog.intro(); // undefined
+```
+> arrow function doesn't get its own `this` it looks outside the scope where `dos` was defined that is the global scope.
+
+#### Arrow functions shine - inside callbacks
+```js
+   The regular function inside setTimeout loses this.So, no longer called dog.
+   const dog = {
+    name: "piku",
+    waitThenintro() {
+        setTimeout(function() {
+        console.log(this.name); // undefined — lost binding
+        }, 1000);
+    }
+    };
+
+    dog. waitThenintro();
+
+
+    # Fix it with arrow function:
+    const dog = {
+    name: "piku",
+    waitThenintro() {
+        setTimeout(() => {
+        console.log(this.name); // "Rex" ✅
+        }, 1000);
+    }
+    };
+
+    dog.waitThenintro();
+```
+
+> arrow ignores explicit binding
+```js
+  const greet = () => {
+    console.log(this.name);
+    };
+
+    const user = { name: "Shahruk" };
+
+   greet.call(user); //  undefined - arrow ignores explicit binding
+```
