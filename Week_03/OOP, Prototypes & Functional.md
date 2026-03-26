@@ -360,3 +360,100 @@
    log(numbers); // 1,2,3
    log(addNumber); // 1,2,3,4 new array
 ```
+### Topic-3: `map`,`filter`,`reduce`
+#### Main objective: Take an array, return new data - never mutate the orginal.
+`map` - takes an array, runs a functions on every item, returns a new array of the same length.
+```js
+    const numbers = [1,2,3];
+    const double = numbers.map(function(num){
+    return num * 2;
+    })
+    console.log(double); //  [2, 4, 6]
+    console.log(numbers); // [1,2,3] no touch
+
+```
+
+`filter` - keep only matching items
+```js
+    const numbers = [1,2,3,4,5,6];
+    const even = numbers.filter(function(num){
+    return num % 2 == 0;
+    })
+    console.log(even); //  [2, 4, 6]
+    console.log(numbers); // [1,2,3,4,5,6] no touch
+
+```
+
+`reduce` - Takes an array, runs a function on every item, return a single value.
+```js
+    const numbers = [1,2,3,4,5,6];
+    const finalValue =  numbers.reduce(function(acc, num){
+    return acc + num;
+    }, 0); // 0 of acc starting value
+    console.log(finalValue); // 21
+    console.log(numbers); // [1,2,3,4,5,6] no touch
+
+```
+##   Implement `map`, `filter`, `reduce` From Scratch 
+### Implement `map`
+```js
+   
+    // implement map from scratch
+    function myMap(arr, fnn){
+    const res = [];
+    for(let i = 0; i < arr.length; i++){
+        res.push(fnn(arr[i], i, arr));
+    }
+    return res;
+    }
+
+    function double(n){
+    return n * 2;
+    }
+    const numbers = [1,2,3];
+    const doubled =  myMap(numbers, double);
+    console.log(doubled);
+
+```
+### Implement `filter`
+```js
+  
+    // implement filter from scratch
+    function myFilter(arr, fnn){
+    const res = [];
+    for(let i = 0; i < arr.length; i++){
+        if(fnn(arr[i], i, arr)){
+        res.push(arr[i]);
+        }
+    }
+    return res;
+    }
+
+    function even(n){
+    return n % 2 == 0;
+    }
+    const numbers = [1,2,3,4];
+    const doubled =  myFilter(numbers, even);
+    console.log(doubled);
+
+```
+### Implement `reduce`
+```js
+   
+    // implement reduce from scratch
+    function myReduce(arr, fnn, initalVa){
+    let accumalator  = initalVa;
+    for (let i = 0; i < arr.length; i++){
+        accumalator = fnn(accumalator, arr[i], i, arr);
+    }
+    return accumalator;
+    }
+
+    function red(acc, n){
+    return acc + n;
+    }
+    const numbers = [1,2,3,4];
+    const doubled =  myReduce(numbers, red, 0 );
+    console.log(doubled);
+
+```
