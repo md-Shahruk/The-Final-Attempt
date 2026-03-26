@@ -1,8 +1,9 @@
 
-function introduce(city, country){
-  console.log(this.name + " is form " + city + ", " + country);
-  
-}
-const user = {name: "Shahruk"};
 
-introduce.call(user, "Dhaka", "Bangladesh.");
+const numbers = [1,2,3];
+   function addNumber(arr, num){
+    arr.push(num);
+    return arr;
+   }
+   addNumber(numbers, 5);
+   console.log(numbers)

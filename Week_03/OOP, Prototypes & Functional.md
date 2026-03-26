@@ -301,3 +301,62 @@
 
    greet.call(user); //  undefined - arrow ignores explicit binding
 ```
+
+## Functional Programming
+### Topic-1: Pure Functions & Side Effects
+#### Insted of telling JS how to do something step by step, focus on on functions that take input and return output - nothing else.
+- Same input always gives same output.
+- dosen't change anything outside itself 
+```js
+   function add(a,b){
+    return a + b;
+   }
+   add(2, 5); // always 5 no matter what
+```
+>- What is side effect?
+```js
+  
+    let total = 0;
+
+    // Impure modifies outside variable total
+    function addToTotal(n) {
+    total += n;
+    }
+
+    // Impure console.log is a side effect
+    function add(a, b) {
+    console.log("adding");
+    return a + b;
+    }
+
+    // Impure  depends on outside variable
+    let tax = 0.1;
+    function getPrice(price) {
+    return price + price * tax; // result changes if tax changes
+}
+```
+> Pure function = same input → same output + no side effects. doesn't read from or write to anything outside itself.
+
+### Topic-2: Immutability
+#### don't change existing data, create new data instead.
+> Mutation - modifies the orginal array
+```js
+   const numbers = [1,2,3];
+   function addNumber(arr, num){
+    arr.push(num);
+    return arr;
+   }
+   addNumber(numbers, 5);
+   log(numbers) // 1,2,3,5 : orginal changed
+```
+
+> Immutable array - leaves orginal array alone
+```js
+   const numbers = [1,2,3];
+   function addNumber(arr, num){
+    return [...arr,num];
+   }
+   const newNumber = addNumber(numbers, 4);
+   log(numbers); // 1,2,3
+   log(addNumber); // 1,2,3,4 new array
+```
