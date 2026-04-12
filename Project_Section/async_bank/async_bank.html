@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AsyncBank</title>
+  <link rel="stylesheet" href="async_bank.css" />
+</head>
+<body>
+
+  <!-- LOGIN PAGE -->
+  <div id="login-page" class="page">
+    <div class="card">
+      <h1 class="logo">AsyncBank</h1>
+      <p class="tagline">Secure. Simple. Async.</p>
+
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
+
+      <button id="login-btn">Login</button>
+      <p id="login-error" class="error hidden">Please fillup username and password.</p>
+    </div>
+  </div>
+
+
+  <!-- Dashboard Page -->
+
+  <div id="dashboard-page" class="page hidden">
+
+    <aside class="sidebar">
+        <h2 class="logo">AsyncBank</h2>
+        <div class="profile-card">
+            <div class="avatar">S</div>
+            <p id="profile-name"></p>
+            <p id="profile-balance" class="balance">0 BDT</p>
+            <button id="logout-btn">Logout</button>
+        </div>
+    </aside>
+
+    <main class="main">
+        <section class="panel">
+        <h2>Send Money</h2>
+        <input type="number" id="send-amount" placeholder="Enter amount" />
+        <button id="send-btn">Send</button>
+        <p id="send-msg" class="hidden">Succesfully Send!</p>
+      </section>
+
+      <section class="panel">
+        <h2>Account Statement</h2>
+        <button id="download-btn">Download Statement</button>
+        <div id="progress-bar-container" class="hidden">
+          <div id="progress-bar"></div>
+        </div>
+        <p id="download-msg" class="hidden"></p>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="dist/main.js"></script>
+</body>
+</html>
