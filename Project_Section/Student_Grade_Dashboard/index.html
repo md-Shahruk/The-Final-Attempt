@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Grade Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="dash">
+      <!-- Header  -->
+      <div class="header">
+        <div class="header-left">
+          <h1>Grade Dashboard</h1>
+          <p>Track student performance</p>
+        </div>
+        <div class="header-right">April 2026</div>
+      </div>
+
+      <!-- Stats card -->
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-label">Total</div>
+          <div class="stat-value" id="stat-total">0</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Class avg</div>
+          <div class="stat-value" id="stat-avg">0</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Passed</div>
+          <div class="stat-value pass" id="stat-pass">0</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Failed</div>
+          <div class="stat-value fail" id="stat-fail">0</div>
+        </div>
+      </div>
+
+      <!-- ADD Student -->
+
+      <div class="main">
+        <div class="add-card">
+          <h2>Add student</h2>
+          <div class="field">
+            <label>Full name</label>
+            <input type="text" id="input-name" placeholder="e.g. Shahruk" />
+          </div>
+
+          <div class="field">
+            <label>Mark (0–100)</label>
+            <input
+              type="number"
+              id="input-mark"
+              placeholder="e.g. 85"
+              min="0"
+              max="100"
+            />
+          </div>
+          <button class="add-btn" id="add-btn">Add student</button>
+        </div>
+
+        <div class="right-panel">
+          <div class="filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="Pass">Pass</button>
+            <button class="filter-btn" data-filter="Fail">Fail</button>
+            <button class="filter-btn" data-filter="A">A grade</button>
+            <button class="filter-btn" data-filter="B">B grade</button>
+            <button class="filter-btn" data-filter="C">C grade</button>
+            <button class="filter-btn" data-filter="C">D grade</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th class="col-name">Name</th>
+                  <th class="col-mark">Mark</th>
+                  <th class="col-grade">Grade</th>
+                  <th class="col-gap">Avg gap</th>
+                  <th class="col-status">Status</th>
+                  <th class="col-action"></th>
+                </tr>
+              </thead>
+
+              <tbody id="student-table">
+                
+                
+              </tbody>
+            </table>
+          </div>
+          <div class="toast-area" id="toast-area">
+            <div class="toast" id="toast">
+              <span class="toast-dot" id="toast-dot"></span>
+              <span id="toast-msg">Shahruk added successfully</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="dist/main.js"></script>
+  </body>
+</html>

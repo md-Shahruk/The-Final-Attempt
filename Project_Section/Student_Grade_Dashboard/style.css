@@ -1,0 +1,340 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #f8f7f4;
+  --surface: #ffffff;
+  --surface-secondary: #f1f0ec;
+  --border: rgba(0, 0, 0, 0.1);
+  --border-strong: rgba(0, 0, 0, 0.2);
+  --text-primary: #1a1a18;
+  --text-secondary: #6b6b67;
+  --text-tertiary: #a0a09c;
+  --green: #1d9e75;
+  --green-bg: #eaf3de;
+  --green-text: #27500a;
+  --red: #d85a30;
+  --red-bg: #fcebeb;
+  --red-text: #791f1f;
+  --blue-bg: #e6f1fb;
+  --blue-text: #0c447c;
+  --amber-bg: #faeeda;
+  --amber-text: #633806;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+body {
+  background-color: var(--bg);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.dash {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 0.5px solid var(--border-strong);
+}
+
+.header-left h1 {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.header-left p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  font-family: "Courier New", monospace;
+}
+
+.header-right {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  font-family: "Courier New", monospace;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+.stat {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+}
+
+.stat-label {
+  font-size: 15px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  margin-bottom: 6px;
+  font-family: "Courier New", monospace;
+}
+
+.stat-value {
+  font-size: 26px;
+  font-weight: 400;
+}
+
+.stat-value.pass {
+  color: var(--green);
+}
+.stat-value.fail {
+  color: var(--red);
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.add-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+}
+
+.add-card h2 {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.field {
+  margin-bottom: 12px;
+}
+.field label {
+  display: block;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+}
+
+.field input {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 13px;
+  border: 0.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text-primary);
+  outline: none;
+}
+.field input:focus {
+  border-color: var(--text-secondary);
+}
+
+.add-btn {
+  width: 100%;
+  padding: 9px;
+  font-size: 13px;
+  background: var(--text-primary);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+
+  margin-top: 4px;
+  transition: opacity 0.15s;
+}
+.add-btn:hover {
+  opacity: 0.85;
+}
+
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  padding: 5px 13px;
+  font-size: 12px;
+  border: 0.5px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text-secondary);
+  cursor: pointer;
+
+  transition: all 0.15s;
+}
+.filter-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+.filter-btn.active {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+  color: var(--bg);
+}
+
+.table-wrap {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  table-layout: fixed;
+}
+thead tr {
+  border-bottom: 0.5px solid var(--border);
+  background: var(--surface-secondary);
+}
+th {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+td {
+  padding: 11px 14px;
+  vertical-align: middle;
+}
+tbody tr td {
+  border-bottom: 0.5px solid var(--border);
+}
+tbody tr:hover td {
+  background: var(--surface-secondary);
+}
+.col-name {
+  width: 30%;
+}
+.col-mark {
+  width: 14%;
+}
+.col-grade {
+  width: 14%;
+}
+.col-gap {
+  width: 20%;
+}
+.col-status {
+  width: 14%;
+}
+.col-action {
+  width: 8%;
+}
+
+.grade-badge {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: "Courier New", monospace;
+}
+.grade-A {
+  background: var(--green-bg);
+  color: var(--green-text);
+}
+.grade-B {
+  background: var(--blue-bg);
+  color: var(--blue-text);
+}
+.grade-C {
+  background: var(--amber-bg);
+  color: var(--amber-text);
+}
+.grade-F {
+  background: var(--red-bg);
+  color: var(--red-text);
+}
+
+.status-pass {
+  font-size: 12px;
+  color: var(--green);
+}
+.status-fail {
+  font-size: 12px;
+  color: var(--red);
+}
+
+.del-btn {
+  padding: 3px 7px;
+  font-size: 11px;
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.del-btn:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+.toast-area {
+  min-height: 38px;
+}
+
+.toast {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  font-size: 12px;
+  color: var(--text-primary);
+  background: var(--surface);
+  border: 0.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
+}
+
+.toast-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+}
+
+.toast-dot.error {
+  background: var(--red);
+}
+
+@media (max-width: 640px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .main {
+    grid-template-columns: 1fr;
+  }
+}
