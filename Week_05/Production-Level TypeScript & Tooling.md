@@ -119,3 +119,66 @@
             status:  "published",
         };
 ```
+
+## Topic-2: Mapped Types 
+- Create a new type by transforming an existing one.
+```js
+   Problem and Solve:
+   interface User {
+    id: number;
+    name: string;
+    email: string;
+   }
+   - if need a version where all feilds are optional and another where all feilds are read-only.Without mapped types write manually:
+   interface User {
+    id?: number;
+    name?: string;
+    email?: string;
+   }
+
+   but thats fine for 3 feilds but for 20 feilds? and what if `User` changes. Its difficult to update every by manually. Mapped fixs this problem:
+
+   Mapped basic syntax:
+   type MyMappedType = {
+    [Key in keyof ExistingType]: ExistingType[Key];
+   }
+    - keyof ExistingType — gets all the keys of a type ("id" | "name" | "email")
+    - Key in ... — loops over each key
+    - ExistingType[Key] — keeps the original value type for each key 
+
+    Real Example:
+
+    Make all feilds Optional:
+    type Optional<T> ={
+        [Key in keyof T]?: T[Key];
+    }
+    type OptionalUser = Optional<User>;
+   // same as { id?: number; name?: string; email?: string; }
+
+    Make all feilds readonly:
+    type Readonly<T> = {
+       readonly [Key in keyof T]: T[Key];
+    };
+
+    type ReadonlyUser = Readonly<User>;
+    // { readonly id: number; readonly name: string; readonly email: string; }
+
+    Make all feilds nullable:
+    type Nullable<T> = {
+      [Key in keyof T]: T[Key] | null;
+    };
+
+    type NullableUser = Nullable<User>;
+    // { id: number | null; name: string | null; email: string | null; }
+
+```
+
+```js
+   1. Write a mapped type called Stringify<T> that takes any type and makes all fields string (regardless of their original type)
+   2. Create a StringifiedUser using it
+
+   type Stringify<T> ={
+    [Key in keyof T]: string;
+   }
+   type StringifiedUser = Stringify<User>;
+```
