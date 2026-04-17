@@ -1,0 +1,27 @@
+{
+  "name": "ts-week5",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "lint": "npx eslint src",
+    "format": "npx prettier --write src",
+    "dev": "tsc --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@typescript-eslint/eslint-plugin": "^8.58.2",
+    "@typescript-eslint/parser": "^8.58.2",
+    "eslint": "^10.2.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.3",
+    "typescript-eslint": "^8.58.2"
+  }
+}

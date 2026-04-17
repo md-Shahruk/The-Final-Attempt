@@ -182,3 +182,118 @@
    }
    type StringifiedUser = Stringify<User>;
 ```
+
+## Topic-3: Conditional Types
+- Write types that makes decisons like an if/else but at the type level.
+```js
+  type MyType<T> = T extends SomeType? TypeIfTrue : TypeIfFale;
+
+  Example:
+  interface User{
+    id: number;
+    name: string;
+    email: string;
+    contact: number;
+  }
+
+  type StringFeilds<T> = {
+    [Key in keyof T]: T[Key] extends string? T[Key]:never;
+  }
+
+  type UserStringFeilds = StringFeilds<User>;
+  // { id: never; name: string; email: string; contact: never; }
+
+
+  Another Example:
+    type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
+
+    type A = UnwrapPromise<Promise<string>>;  // string
+    type B = UnwrapPromise<Promise<number>>;  // number
+    type C = UnwrapPromise<boolean>;          // boolean - not a Promise, 
+```
+```js
+   type IsArray<T> = T extends any[] ? "yes" : "no";
+
+    type A = IsArray<string[]>;  // yes
+    type B = IsArray<number>;    // no
+    type C = IsArray<boolean[]>; // yes 
+```
+
+## Topic-4: Template literal types 
+```js
+    type Entity = "user" | "post" | "comment";
+    type Action = "created" | "updated" | "deleted";
+
+    type AppEvent = `${Entity}:${Action}`;
+    // "user:created" | "user:updated" | "user:deleted"
+    // "post:created" | "post:updated" | "post:deleted"
+    // "comment:created" | "comment:updated" | "comment:deleted"
+
+    function handleEvent(event: AppEvent) {
+    console.log(event);
+    }
+
+    handleEvent("user:created");  // fine
+    handleEvent("user:banned");   //not in the type
+
+    type Size = "sm" | "md" | "lg";
+    type Color = "red" | "blue";
+
+    type ButtonClass = `$btn-${Size}-${Color}`
+
+    function getButton(buttonClass: ButtonClass){
+        log(buttonClass);
+    }
+    getButton("btn-sm-red"); // fine
+    getButton("btn-md-green");  // not in the type
+
+```
+## Topic-5: Declaration Files (.d.ts):
+- In TypeScript Declaratios Files lika a file where only write type-information, but there has no actually implementation(logic/code).
+
+```js
+   # A Simple  Example:
+   // utils.js
+  function add(a, b) {
+    return a + b;
+  }
+
+  function greet(name) {
+    return `Hello, ${name}!`;
+  }
+
+  module.exports = { add, greet }; 
+
+  -  TypeScript knows nothing about this so create a declaration file alongside it
+  // utils.d.ts
+  export function add(a: number, b: number): number;
+  export function greet(name: string): string;
+  - now typescript understands the shape, also get type safety and autocomplete.
+```
+### Where need?
+1. For use JS libraries
+  - like lodash, express, so that Typescript can understand - .d.ts
+
+`declare` keyword
+```js
+  // globals.d.ts
+  declare const API_URL: string;
+  declare function fetchUser(id: number): Promise<User>;
+
+  declare module "my-js-lib" {
+    export function doSomething(value: string): void;
+  }
+  -  not writing logic — just telling TypeScript "trust me, this exists and here's its shape."
+```
+
+## Topic-6: tsconfig.json
+- This file controls how Typescript compiles code.
+
+
+## Tooling
+## Topic-1: ESLint + Prettier + Build Pipeline
+#### What each tools does?
+1. ESLint - catches code quality issues and bad patterns
+2. Prettier - formats code automatically (indentation, quotes, spacing)
+3. tsc - TypeScript's own compiler, good for type checking and simple builds
+4. esbuild - extremely fast bundler/compiler, used in production pipelines
