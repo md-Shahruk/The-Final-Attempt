@@ -228,3 +228,28 @@ Real life:
 
    The library handles sending the right headers automatically.
 ```
+
+### HTTPS and the TLS Handshake — How your connection becomes secure
+Normal HTTP send everything as a plain text.
+
+If someone is setting between you and server (like on a public WiFi) they can read everything message, password,card number. This is called a man-in-the-middle-attack.
+
+HTTPS solve this by `encrpyting` everything.
+
+HTTPS = HTTP + TLS (Transport Layer Security)
+
+TLS is a security layer that wraps around HTTP. It does two things:
+- Encrypts the data: nobody can read it in transit
+- Verifies the server: You are actually talking to the real facebook.com not  a fake one. 
+
+The TLS Handshake - a simple analogy
+
+![alt text](image.png)
+
+One thing to remember:
+
+The padlock icon 🔒 in browser = TLS is active =  connection is encrypted.
+
+No padlock = plain HTTP = anyone can read what sending.
+
+
