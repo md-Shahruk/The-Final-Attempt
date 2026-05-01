@@ -132,3 +132,99 @@ One real-world example to tie it together
 
     {"message": "Login successful"}
 ```
+
+### Cookies — How websites remember you
+- Stateless: The server forgets you after every request.
+- So how does facebook know you are still logged in after refresh the page. - Cookies
+#### A cookie is just a small piece of text that the server tells browser to store and send back with every future request.
+
+Step 1 - You log in
+```js
+   POST /login
+   {"email": "shahruk@email.com", "password": "1234"}
+```
+Step 2 - Server confirms and gives a cookie
+```js
+   200 OK
+   Set-Cookie: sessionId=xyz789
+   server saying: Login successful, store this sessionid in your browser.
+```
+Step 3 - Every future request, browser sends the cookie back automatically 
+```js
+   GET /profile
+   Cookie: sessionId=xyz789 
+   The server reads the cookie, looks up xyz789,
+```
+
+Cookie properties - the important ones
+```js
+   Expires: When does this cookie die? (after 7 days)
+   HttpOnly: JavaScript cannot read this cookie — only the browser sends it. Protects against attacks.
+   Secure: Only send this cookie over HTTPS, never plain HTTP 
+   SameSite: Only send this cookie if the request comes from the same website 
+
+   `HttpOnly` and `Secure` are security features.
+```
+- Session cookie - dies when  close the browser. No expiry date set.
+- Persistent cookie - survives after  close the browser. Has an expiry date.
+
+
+### CORS — Why your request sometimes gets blocked 
+
+Imagine you have two websites:
+
+- frontend: `myapp.com`
+- backend API: `api.myapp.com` 
+
+if frontend tries to fetch data from backend. The browser block it. Because they are different domains. And by default, browser don't allow that.
+This protection is called the `Same-Origin Policy`.
+
+What is "origin"?
+Origin = protocol + domain + port 
+```js
+   https://myapp.com:443
+     ↑         ↑       ↑
+   protocol  domain   port
+```
+
+CORS stands for `Cross-Origin Resource Sharing.`
+```js
+   "Hey browser, it's okay. I allow requests from this other origin. Don't block it."
+   The server does this by sending back a special header:
+   Access-Control-Allow-Origin: https://myapp.com
+```
+
+```js
+   Browser: "Hey api.myapp.com, myapp.com wants your data. Is that okay?"
+   Server:  "Yes, I allow myapp.com." → request goes through 
+   Server:  (says nothing)            → browser blocks it 
+
+   CORS errors are not a frontend or backend problem. They are a browser security feature.
+```
+
+The Preflight Request - what happens behind the scenes
+
+For certain request like POST with JSON the browser doesn't send the real request immediately. First send a preflight- a small asking permission request using the `OPTIONS` method.
+
+```js
+   OPTIONS /data
+   Origin: https://myapp.com
+   Access-Control-Request-Method: POST 
+
+   "I'm about to send a POST from myapp.com — is that allowed?"
+```
+```js
+   Access-Control-Allow-Origin: https://myapp.com
+   Access-Control-Allow-Methods: GET, POST
+
+   "okay cool" — then sends the real request.
+```
+
+Real life:
+```js
+   building a Node.js/Express backend, just do this:
+   const cors = require('cors');
+   app.use(cors({ origin: 'https://myapp.com' }));
+
+   The library handles sending the right headers automatically.
+```
