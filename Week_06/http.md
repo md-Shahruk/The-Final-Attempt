@@ -253,3 +253,70 @@ The padlock icon 🔒 in browser = TLS is active =  connection is encrypted.
 No padlock = plain HTTP = anyone can read what sending.
 
 
+## Browser - How a webpage actually appears on your screen
+Type URL, hit enter, and a webpage appears. But how?
+
+The browser receives raw HTML text from the server.just text. Somehow it turns that into buttons, colors, layouts, and animations.
+
+That process has a specific pipeline. Let's walk through it step by step.
+
+#### Step 1 — Parsing HTML → Building the DOM 
+The browser reads the HTML from top to bottom, line by line.
+
+As it reads, it builds a tree structure called the DOM. 
+```js
+  html
+   ├── head
+   │   └── title
+   └── body
+      ├── h1
+      ├── p
+      └── div
+         └── button
+
+   Every HTML tag becomes a node in this tree. This is what JavaScript interacts with when do document.getElementById() - you're reaching into the DOM tree.
+
+```
+#### Step 2 — Parsing CSS → Building the CSSOM
+
+While parsing HTML, the browser also finds  CSS from style tags or external files. And builds a separate tree called CSSOM.
+```js
+   body → font-size: 16px
+   ├── h1 → color: red
+   └── p  → margin: 10px
+```
+
+#### Step 3 — Combining them → The Render Tree
+
+The browser merges the DOM and CSSOM into one structure called the Render Tree.
+The render tree only contains visible elements with their styles attached.
+For example — if you have `display: none` on an element, it exists in the DOM but gets excluded from the render tree. It won't be painted on screen.
+
+#### Step 4 — Layout
+
+Now the browser knows what to show and how it looks. But it doesn't yet know where to put things.
+Layout is the step where the browser calculates the exact position and size of every element on the page.
+
+"This div is 400px wide, starts at x:20, y:150 on the screen."
+
+This is also called reflow. If you change something that affects size or position (like changing width with JS), the browser has to redo this step — which is expensive.
+
+#### Step 5 — Paint
+
+Now the browser knows what, how, and where. Time to actually draw it.
+
+Paint = filling in the pixels on the screen.
+
+Colors, text, borders, shadows — all drawn here layer by layer.
+
+#### Step 6 — Composite
+
+Composite = combining all those layers into the final image you see.
+
+This is why CSS animations using `transform` and `opacity` are fast — they only affect the composite step, skipping layout and paint entirely.
+
+```js
+   HTML → DOM → ┐
+                ├→ Render Tree → Layout → Paint → Composite → Screen
+  CSS → CSSOM → ┘
+```
